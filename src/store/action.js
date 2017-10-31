@@ -2,7 +2,7 @@ var audiolist = {
   ap1: {
     chiness: {
       audioUrl: "/static/mp3/audio5.mp3",
-      title: "图书馆"
+      title: "ap1"
     },
     english: {
       audioUrl: "/static/mp3/audio5.mp3",
@@ -12,7 +12,7 @@ var audiolist = {
   ap2: {
     chiness: {
       audioUrl: "/static/mp3/audio2.mp3",
-      title: "教学楼"
+      title: "ap2"
     },
     english: {
       audioUrl: "/static/mp3/audio2.mp3",
@@ -22,7 +22,7 @@ var audiolist = {
   ap3: {
     chiness: {
       audioUrl: "/static/mp3/audio3.mp3",
-      title: "宿舍"
+      title: "ap3"
     },
     english: {
       audioUrl: "/static/mp3/audio3.mp3",
@@ -106,7 +106,7 @@ var declist = [
   {
     id: "ap1",
     chiness: {
-      title: "南海明珠 ",
+      title: "ap1 ",
       dec:
         "南海明珠,佛教福地。有“百岛之市”美誉的珠海，1980年经国务院批准成为中国五个经济特区之一。据2010年普查，珠海陆地面积1701平方千米，海岸线长604公里，大小岛屿146个。 "
     },
@@ -119,7 +119,7 @@ var declist = [
   {
     id: "ap2",
     chiness: {
-      title: "长明灯式八大圣迹灵塔",
+      title: "ap2",
       dec: `1、迦毘罗卫城蓝毗尼园佛陀降生处。
             2、摩揭陀国尼连禅河边菩提树下佛陀成道处。
 			3、迦尸国波罗奈城鹿野苑佛陀初转法轮处。
@@ -144,7 +144,7 @@ var declist = [
   {
     id: "ap3",
     chiness: {
-      title: "石质长明灯",
+      title: "ap3",
       dec: "以供在佛前昼夜不灭,故名。比喻指引人朝向光明，努力前进，永不休废的慈悲。"
     },
     english: {

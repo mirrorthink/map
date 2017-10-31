@@ -3,10 +3,11 @@
     
         <div class="item" v-for="(message,index) in navMessages" @touchend.stop.prevent="show(index)" @click="show(index)">
             <span class="icon">
-                <img v-lazy="message.icon" alt="">
-                <span class="cover" v-bind:class="{ active: message.show }"></span>
+               <img :src="message.icon_d" alt="" v-if="!message.show">
+          
+                  <img :src="message.icon" alt="" v-if="message.show">
             </span>
-            <span class="title">{{message.item[activeLanguage]}}</span>
+            <span class="title" v-bind:class="{ active: message.show }">{{message.item[activeLanguage]}}</span>
         </div>
     </div>
 </template>
@@ -25,7 +26,8 @@ export default {
                         'english': 'route'
 
                     },
-                    "icon": '/static/img/luxian.png',
+                    "icon": '/static/img/int_path@2x.png',
+                     "icon_d": '/static/img/int_path_disabled@2x.png',
                     'show': false,
                     'layer': 'routeLayer',
                     'type': 'route',
@@ -40,6 +42,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_jingdian@2x.png',
+                    "icon_d": '/static/img/int_jingdian_disabled@2x.png',
                     'show': true,
                     'layer': 'sightLayer',
                     'type': 'sight',
@@ -53,6 +56,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_WC@2x.png',
+                    "icon_d": '/static/img/int_WC_disabled@2x.png',
                     'show': false,
                     'layer': 'wcLayer',
                     'type': 'wc',
@@ -67,6 +71,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_eat@2x.png',
+                     "icon_d": '/static/img/int_eat_disabled@2x.png',
                     'show': false,
                     'layer': 'foodLayer',
                     'type': 'food',
@@ -80,6 +85,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_Park@2x.png',
+                      "icon_d": '/static/img/int_Park_disabled@2x.png',
                     'show': false,
                     'class': 'jingqu',
                     'layer': 'parkLayer',
@@ -95,6 +101,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_bus@2x.png',
+                      "icon_d": '/static/img/int_bus_disabled@2x.png',
                     'show': false,
                     'layer': 'stopLayer',
                     'type': 'stop',
@@ -108,6 +115,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_360@2x.png',
+                    "icon_d": '/static/img/int_360_disabled@2x.png',
                     "url": "",
                     'show': false,
                     'layer': 'panoramicLayer',
@@ -122,6 +130,7 @@ export default {
 
                     },
                     "icon": '/static/img/int_other@2x.png',
+                    "icon_d": '/static/img/int_other_disabled@2x.png',
                     "url": "",
                     'show': false,
                     'layer': 'otherLayer',
@@ -204,16 +213,17 @@ export default {
                 height: 1.71em;
                 display: block;
 
-                background: rgba(255, 255, 255, 0.5);
-                &.active {
-                    background: rgba(255, 255, 255, 0)!important;
-                }
+             
             }
         }
         span.title {
             text-align: center;
             display: block;
             margin-top: 0.5rem;
+            color:#999;
+            &.active{
+                 color:#000;
+            }
         }
     }
 }

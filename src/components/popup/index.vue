@@ -150,6 +150,7 @@ export default {
                 line-height: 1.62rem;
                 position: relative;
                 top: -0.31rem;
+                text-align: justify;
             }
         }
     }
@@ -168,7 +169,7 @@ export default {
 
 
         a {
-            background: #927028;
+            background: #0095B3;
             color: #fff;
             display: inline-block;
             padding: 0.43rem 0.57rem;

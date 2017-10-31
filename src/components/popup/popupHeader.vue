@@ -68,7 +68,7 @@ export default {
         flex-grow: 2;
 
         .img {
-            width: 1.71rem;
+            width: 1.91rem;
             height: 1.71rem;
             display: inline-block;
             margin-right: 0.5rem;

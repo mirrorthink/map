@@ -153,6 +153,7 @@ export default {
         margin-top: 0.86rem;
         line-height: 1.62rem;
         margin-bottom: 3.43rem;
+        text-align:justify;
     }
     .popupBottom {
         margin-top: 1.64rem;
