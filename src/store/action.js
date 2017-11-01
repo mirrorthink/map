@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 var audiolist = {
   ap1: {
     chiness: {
@@ -410,10 +412,7 @@ export default {
       let activeDec = declist.filter(function(item) {
         return item.id == payload;
       });
-      let additionMassage =
-        activeDec[0][
-          state.languageMessages.language[state.languageMessages.activeindex]
-        ];
+      let additionMassage = activeDec[0][state.activeLanguage];
       if (acitveItem.length) {
         let sightMessage = Object.assign({}, acitveItem[0], additionMassage);
         resolve(sightMessage);
@@ -428,10 +427,7 @@ export default {
         let activeDec = declist.filter(function(item2) {
           return item2.id == item.id;
         });
-        let additionMassage =
-          activeDec[0][
-            state.languageMessages.language[state.languageMessages.activeindex]
-          ];
+        let additionMassage = activeDec[0][state.activeLanguage];
         if (item) {
           let sightMessage = Object.assign({}, item, additionMassage);
           return sightMessage;
@@ -474,12 +470,8 @@ export default {
   },
   getIconLanByType({ commit, state }, payload) {
     return new Promise((resolve, reject) => {
-      if (IconlayerLangusge[payload]) {
-        resolve(
-          IconlayerLangusge[payload][
-            state.languageMessages.language[state.languageMessages.activeindex]
-          ]
-        );
+      if (IconlayerLangusge && IconlayerLangusge[payload]) {
+        resolve(IconlayerLangusge[payload][state.activeLanguage]);
       } else {
         reject();
       }
@@ -491,14 +483,33 @@ export default {
         return item.id == payload;
       });
       if (activeDec.length) {
-        let additionMassage =
-          activeDec[0][
-            state.languageMessages.language[state.languageMessages.activeindex]
-          ];
+        let additionMassage = activeDec[0][state.activeLanguage];
         resolve(additionMassage.title);
       } else {
         reject();
       }
+    });
+  },
+  locateByIP({ commit, state }, payload) {
+    return new Promise(function(resolve, reject) {
+      Vue.http.get("http://192.168.31.10:3000").then(
+        response => {
+          var json = response.body;
+          console.log(json.state == 200);
+          console.log(json.ipLabel);
+
+          if (json.state == 200) {
+            console.log(json.ipLabel);
+            resolve(json.ipLabel);
+          } else {
+            resolve("未检测到对应ap");
+            console.log("未检测到对应ap");
+          }
+        },
+        err => {
+          reject(err);
+        }
+      );
     });
   }
 };

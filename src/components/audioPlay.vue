@@ -138,7 +138,7 @@ export default {
   bottom: 0;
   width: 100%;
   height: 3.125rem;
-  background: -webkit-linear-gradient(top, #f9f9f9, #f3f3f3);
+  background: #fff;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

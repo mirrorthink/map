@@ -120,7 +120,7 @@ export function testgeojson(ol, map) {
   // map.addLayer(vectorLayer2);
   map.addLayer(vectorLayer3);
 }
-
+/*
 export function testIPlocate() {
   return new Promise(function(resolve, reject) {
     Vue.http.get("http://192.168.31.10:3000").then(
@@ -142,4 +142,4 @@ export function testIPlocate() {
       }
     );
   });
-}
+}*/

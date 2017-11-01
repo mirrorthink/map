@@ -1,99 +1,91 @@
-@commmonPadding : 0.86rem;  
+@commmonpadding:0.86rem;
 
-#section{
-  width:100%;
-  height:100vh;
+#section {
+  width: 100%;
+  height: 100vh;
   position: absolute;
-  top:0px;
+  top: 0px;
   left: 0px;
   overflow: hidden;
-  #map{
-    width:100%;
-    height:100vh;
-    #overlayerHolder{
+  #map {
+    width: 100%;
+    height: 100vh;
+    #overlayerHolder {
       position: absolute;
     }
   }
-  #geolocation_marker{
+  #geolocation_marker {
     width: 2.29rem;
     height: 2.29rem;
   }
- .toggleholder{
+  .toggleholder {
     position: absolute;
-    top:0px;
+    top: 0px;
     right: 0px;
-    padding: 0 @commmonPadding;
-    &.active{
+    padding: 0 @commmonpadding;
+    &.active {
       min-width: 20rem;
     }
   }
-  .toggleholder{
+  .toggleholder {
     margin-top: 1.97rem;
-
   }
-  .icon{
+  .icon {
     position: absolute;
-    bottom:0;
+    bottom: 0;
     left: 0;
     width: 100%;
     /*height: 3.43rem;*/
-    padding: @commmonPadding 2rem;
+    padding: @commmonpadding 2rem;
     background: #fff;
-    .miannav{
+    .miannav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .iconHolder{
-
- 
-
+      .iconHolder {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-       
-        &:nth-child(2){
-           padding: 0 10%;
-           border-right: 1px solid rgba(250, 217, 157, 0.5);
-           border-left: 1px solid rgba(250, 217, 157, 0.5);
+
+        &:nth-child(2) {
+          padding: 0 10%;
+          border-right: 1px solid rgba(250, 217, 157, 0.5);
+          border-left: 1px solid rgba(250, 217, 157, 0.5);
         }
-        img{
+        img {
           width: 1.71rem;
           height: 1.71rem;
           margin-right: 0.2rem;
-          
-        } 
-        span{
+        }
+        span {
           font-size: 1rem;
-          color:#7A7A7F ;
+          color: #7a7a7f;
         }
       }
-
     }
-
   }
- .mynav{
+  .mynav {
     position: absolute;
     right: 0;
-    margin-right: @commmonPadding;
+    margin-right: @commmonpadding;
     bottom: 4.5rem;
-    
-
+    z-index: 15;
   }
-  .popupCointer{
+  .popupCointer {
     position: absolute;
     bottom: 4.43rem;
     width: 100%;
     padding: 0 0.93rem;
-    z-index: 10000;
-    .closeHolder{
+    z-index: 10;
+    .closeHolder {
       display: flex;
       justify-content: center;
       margin-bottom: 0.71rem;
-      .close{
+      .close {
         display: block;
         width: 2.29rem;
         height: 2.29rem;
-        img{
+        img {
           width: 100%;
           height: 100%;
         }
@@ -118,31 +110,30 @@
 
     div.content {
       width: 80%;
-  
-      background: rgba(146,112,40,0.7);
+
+      background: rgba(146, 112, 40, 0.7);
       display: inline-block;
       margin: auto;
       border-radius: 0.625rem;
       color: #fff;
       padding: 1rem 1rem 2rem;
       font-size: 1rem;
-      h5{
-        font-size:1rem;
-      
-       
+      h5 {
+        font-size: 1rem;
+
         width: auto;
-        margin-left:auto;
+        margin-left: auto;
         padding: 0.5rem;
         margin-top: 0;
         margin-bottom: 1rem;
-        margin-right: auto; 
-        color:#fff ;
+        margin-right: auto;
+        color: #fff;
         font-weight: normal;
-        span{
-           border-bottom: 1px solid #fff;
-           display: inline-block;
-           padding-bottom: 0.5rem;
-           color:#fff ;
+        span {
+          border-bottom: 1px solid #fff;
+          display: inline-block;
+          padding-bottom: 0.5rem;
+          color: #fff;
         }
       }
       a {
@@ -152,7 +143,7 @@
         padding: 5px;
         margin: 10px;
         opacity: 1;
-        color:#7A7A7F ;
+        color: #7a7a7f;
         border-radius: 0.5rem;
         &:hover {
           cursor: pointer;
@@ -161,8 +152,9 @@
     }
   }
 }
-.sacle-enter-active, .sacle-leave-active {
-  transition: all .2s ease-in
+.sacle-enter-active,
+.sacle-leave-active {
+  transition: all 0.2s ease-in;
 }
 
 .sacle-enter {
@@ -172,18 +164,22 @@
   transform: rotate3d(0, 1, 0, -90deg);
 }
 
-.downIn-enter-active, .downIn-leave-active {
-  transition: all .1s ease-in
+.downIn-enter-active,
+.downIn-leave-active {
+  transition: all 0.1s ease-in;
 }
 
-.downIn-enter,.downIn-leave-active  {
+.downIn-enter,
+.downIn-leave-active {
   transform: translateY(-120%);
 }
 
-.upIn-enter-active, .upIn-leave-active {
-  transition: all .2s ease 0.1s
+.upIn-enter-active,
+.upIn-leave-active {
+  transition: all 0.2s ease 0.1s;
 }
 
-.upIn-enter,.upIn-leave-active  {
+.upIn-enter,
+.upIn-leave-active {
   transform: translateY(120%);
 }

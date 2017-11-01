@@ -13,7 +13,8 @@
                 </div>
     
             </div>
-            <div class="right">
+            <div class="right" >
+              
                 <div class="detail" v-substr="message.mode == 'auto' ?  25 : 50"> {{message.dec}}</div>
             </div>
         </div>
@@ -22,8 +23,7 @@
         </div>
         <div class="popupBottom" v-if="message.mode != 'auto' ">
             <popupBottom v-once :messageId="message.id"></popupBottom>
-        </div>
-    
+        </div>      
     </div>
 </template>
 <script>
@@ -78,7 +78,11 @@ export default {
         (this.message.mode == 'auto') ? (this.substrNumber = 20) : (this.substrNumber = 40)
     },
     created: function () {
-
+    
+    },
+    updated () {
+       
+        
     },
 
     methods: {
@@ -93,8 +97,16 @@ export default {
             this.$router.push({ name: 'detail', params: { id: this.message.id } })
 
         },
+        
 
-    }
+    },
+    watch:{
+       'message':{
+            handler(curVal,oldVal){
+                  },
+            deep:true
+            }
+      }
 }
 </script>
 

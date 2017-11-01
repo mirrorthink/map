@@ -37,12 +37,16 @@ export default {
             distantWord:''
         }
     },
+   
     computed: mapState(['currentPosition','activeLanguage']),
     mounted() {
+        if(this.location && this.currentPosition){
         let result=computDistant(this.location, this.currentPosition)
         this.distant = result ?  result : this.word[this.activeLanguage][1];
     
        this.distantWord= this.word[this.activeLanguage][0]+' '+this.distant
+        }
+
     },
     created: function () {
     },

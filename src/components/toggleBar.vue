@@ -1,15 +1,14 @@
 <template>
     <section>
         <div class="active">
-            <span class="active item showIn" v-on:click="toggleAllshow" v-bind:class="{ voice: Messages.name == 'languagemode'}">
-    
-                <img :src="languageActiveItem.item" alt="">
+            <span class="active item showIn" v-on:click="toggleAllshow" v-bind:class="{ voice: name == 'languagemode'}">
+                <img :src="Messages.item[Messages.activeIndex].img" alt="">
             </span>
         </div>
         <transition name="fade">
             <div class="all" v-if="allShow" v-bind:class="{ active: allShow }">
-                <span class="item" v-for="(message, index) in Messages.item" v-on:click="clickItem(message,index)" v-bind:class="{ voice: Messages.name == 'languagemode'}">
-                    <img :src="message" alt="">
+                <span class="item" v-for="(message, index) in Messages.item" v-on:click="clickItem(index)" v-bind:class="{ voice: Messages.name == 'languagemode'}">
+                    <img :src="message.img" alt="">
                 </span>
             </div>
         </transition>
@@ -19,51 +18,15 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'toggleBar',
-    props: ['Messages'],
+    props: ['Messages','name'],
     data() {
         return {
             allShow: false,
-            languageActiveItem: {
-                item: '',
-                index: 0
-            },
+    
         }
     },
-
-    mounted() {
-        this.languageActiveItem.item = this.Messages.item[this.Messages.activeindex];
-
-    },
     methods: {
-        audioready() {
 
-            var that = this;
-            if (this.languageActiveItem.index == 1) {
-                if (this.Messages.item.length < 3) {
-                    console.log('touchstart')
-                    that.$store.dispatch({
-                        type: 'play',
-                        id: 'slient',
-                    }).then(function (value) {
-
-                        that.play()
-
-                        that.audioShowContral(true);
-                    })
-
-                    setTimeout(() => {
-                        that.pause();
-                        that.$store.dispatch({
-                            type: 'play',
-                            id: 'canteen',
-                        }).then(function (value) {
-                            that.play()
-                            that.audioShowContral(true);
-                        })
-                    }, 10000);
-                }
-            }
-        },
         toggleAllshow() {
             var that = this;
 
@@ -72,41 +35,29 @@ export default {
                 this.changetoggleAllShow()
             } else {
                 //自动播放按钮
-                this.languageActiveItem.index = (this.languageActiveItem.index + 1) % 2;
-                this.languageActiveItem.item = this.Messages.item[this.languageActiveItem.index];
-                this.$store.commit({
-                    type: 'changMode',
-                    name: this.Messages.name,
-                    activeindex: this.languageActiveItem.index,
-                })
+                  var index = (this.Messages.activeIndex + 1) % 2;
+             
+           
+                    this.$emit('changMode', index )
+            
 
-                if (this.languageActiveItem.index == 1) {
+               /* if (this.activeItem.index == 1) {
                     that.locating(true)
                 } else {
                    
 
-                }
+                }*/
             }
         },
-        clickItem(item, index) {
+        clickItem(index) {
             var that = this;
-            this.toggleAllshow();
-            this.languageActiveItem.item = item;
-            this.languageActiveItem.index = index;
-            this.$store.commit({
-                type: 'changMode',
-                name: this.Messages.name,
-                activeindex: index,
-            })
-            if (this.Messages.name == 'languageMessages') {
-                this.$emit('changelanguageMessages');
-               // this.changeSightMessageByLangeageMode()
-            }
+            this.toggleAllshow();    
+            this.$emit('changMode',index)
 
 
         },
         ...mapMutations([
-            'changetoggleAllShow', 'play', 'audioShowContral', 'locating', 'pause', 'changeFlesh'
+            'changetoggleAllShow', 'play', 'audioShowContral', 'locating', 'pause', 'changMode'
         ]),
         ...mapActions([
              'getlayerMessage','changeSightMessageByLangeageMode'
