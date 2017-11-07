@@ -1,8 +1,8 @@
 <template>
-    <div class="outer">
+    <div   class="outer " >
         <div class="constainer">
             <div class="holder" v-for="message of sightMessages">
-                <popup v-bind:message="message" v-bind:currentPopid="message.id" v-on:close="close"></popup>
+                <popup v-bind:message="message" v-bind:currentPopid="message.id" v-on:close="close" class="wow fadeInUp" data-wow-offset="10"  ></popup>
             </div>
         </div>
         <audioplay v-if="audioShow" v-on:close="audioShowContral"></audioplay>
@@ -28,7 +28,7 @@ export default {
         }
     },
     mounted() {
-
+    new WOW().init();
         document.title = '景点详情',
             this.getSightMessage().then((data)=>{
                 this.sightMessages=data;

@@ -1,5 +1,5 @@
 <template>
-    <div class="popoverouter">
+    <div class="popoverouter" >
         <popupHeader v-once :location="message.location" :title="message.title" class="popupHeader"></popupHeader>
         <div class="content">
             <div class="left">
@@ -27,7 +27,7 @@
     </div>
 </template>
 <script>
-let ol = require('openlayers')
+
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 import popupHeader from './popupHeader'
@@ -76,6 +76,9 @@ export default {
     mounted() {
 
         (this.message.mode == 'auto') ? (this.substrNumber = 20) : (this.substrNumber = 40)
+
+
+  
     },
     created: function () {
     
