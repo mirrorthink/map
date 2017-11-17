@@ -41,3 +41,10 @@ export function formatTime(time) {
         "0" + parseInt(parseInt(time) / 60);
     return m + ":" + s;
 }
+
+class MyClass {
+    myProp = 42;
+    constructor() {
+        console.log(this.myProp); // 42
+    }
+}

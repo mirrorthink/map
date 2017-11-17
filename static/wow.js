@@ -445,6 +445,7 @@
             results = [];
             for (name in properties) {
                 value = properties[name];
+                console.log(name)
                 elem["" + name] = value;
                 results.push(
                     function() {
@@ -463,7 +464,7 @@
                     }.call(this)
                 );
             }
-            console.log(results)
+            console.log(results);
             return results;
         };
 

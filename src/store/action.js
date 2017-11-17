@@ -173,7 +173,7 @@ var IconlayerMessage = {
             id: "ap1",
             title: "图书馆",
             dec: "祈福邮局。观音山祈福邮局精巧别致，古色古香；邮局快递的不仅是一份开光物品，更是一份祝福，一份爱心。祈福邮局。观音山祈福邮局精巧别致，古色古香；邮局快递的不仅是一份开光物品，更是一份祝福，一份爱心。祈福邮局。观音山祈福邮局精巧别致，古色古香；邮局快递的不仅是一份开光物品，更是一份祝福，一份爱心。",
-            location: [113.408545, 23.020018],
+            location: [113.5217748881885, 22.3188966062253],
             imgurl: "/static/img/img1.jpg",
 
             type: "sight"
@@ -181,7 +181,7 @@ var IconlayerMessage = {
         {
             id: "ap2",
             title: "教学楼",
-            location: [113.410195, 23.020654],
+            location: [113.5219933328206, 22.3191777720067],
             dec: "钟鼓楼。古代城市中的钟鼓楼原为专用报时之用。自唐代起，寺庙内也设钟和鼓，祈福邮局。观音山祈福邮局精巧别致，古色古香；邮局快递的不仅是一份开光物品，更是一份祝福，一份爱心。祈福邮局。观音山祈福邮局精巧别致，古色古香；邮局快递的不仅是一份开光物品，更是一份祝福，一份爱心。元",
             imgurl: "/static/img/img2.jpg",
             video: "/static/video/vedio.mp4",
@@ -504,7 +504,7 @@ export default {
     },
     locateByIP({ commit, state }, payload) {
         return new Promise(function(resolve, reject) {
-            Vue.http.get("http://192.168.31.10:3000").then(
+            Vue.http.get(serverApi).then(
                 response => {
                     var json = response.body;
                     console.log(json.state == 200);

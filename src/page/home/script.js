@@ -44,17 +44,20 @@ export default {
             setCenterFlag: true,
             layer1: new ol.layer.Tile({
                 source: new ol.source.XYZ({
+                    //  url: "https://notifysystem.trade/pts/{z}/{y}/{x}.png"
                     url: "https://notifysystem.trade/pts/{z}/{x}-{y}.jpg"
-                        // url: 'http://localhost:9096/pts/{z}/{x}-{y}.jpg'
+
+                    // url: 'http://localhost:9096/pts/{z}/{x}-{y}.jpg'
+                    // url: "http://114.115.129.48:8081/static/{z}/{x}-{y}.jpg"
                 })
             }),
             /*
-                                                                                                                                                                                                                                                                                                                              layer2: new ol.layer.Tile({
-                                                                                                                                                                                                                                                                                                                                source: new ol.source.XYZ({
-                                                                                                                                                                                                                                                                                                                                  url: "https://notifysystem.trade/pts_Road/{z}/{x}-{y}.png"
-                                                                                                                                                                                                                                                                                                                                  // url: 'http://localhost:9096/jnu_Road/{z}/{x}-{y}.jpg'
-                                                                                                                                                                                                                                                                                                                                })
-                                                                                                                                                                                                                                                                                                                              }),*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                layer2: new ol.layer.Tile({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                  source: new ol.source.XYZ({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    url: "https://notifysystem.trade/pts_Road/{z}/{x}-{y}.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    // url: 'http://localhost:9096/jnu_Road/{z}/{x}-{y}.jpg'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                  })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                }),*/
             //地图中心点
             center: ol.proj.transform(
                 [113.5223325947326, 22.3178767486058],
@@ -103,7 +106,8 @@ export default {
 
         this.map = new ol.Map({
             layers: [this.layer1],
-            view: this.view
+            view: this.view,
+            controls: [new ol.control.Zoom()]
         });
         this.getlayerMessage().then(data => {
             console.log(data);
@@ -118,9 +122,9 @@ export default {
                 this.setlayer(data[item]);
             });
         });
-        this.getTG_ScenicSpot().then(data => {
-            this.setlayer(data, true);
-        });
+        /*  this.getTG_ScenicSpot().then(data => {
+                                                                                          this.setlayer(data, true);
+                                                                                      });*/
     },
     mounted() {
         this.musicPlay = document.getElementById("music");
@@ -144,6 +148,7 @@ export default {
         this.map.on("click", e => {
             e.stopPropagation();
             let coordinate = e.coordinate;
+            console.log(coordinate);
             let lc = ol.coordinate.toStringXY(
                 ol.proj.transform(coordinate, "EPSG:3857", "EPSG:4326")
             );
@@ -160,23 +165,26 @@ export default {
             }
         });
 
-        this.geofunction();
+        //  this.geofunction();
         //
         //true
+        /*先放出来测试*/
+        // this.playByAp("ap2");
+
         var timer = setInterval(() => {
             this.locateByIP()
                 .then(data => {
-                    console.log(data);
                     if (this.activeAp == data) {
                         return;
                     } else {
                         this.activeAp = data;
+
                         this.playByAp(data);
                     }
                 })
                 .catch(e => {
-                    console.log(e);
-                    clearInterval(timer);
+                    // console.log(e);
+                    // clearInterval(timer);
                 });
         }, 1000);
 
@@ -215,6 +223,14 @@ export default {
             });
             this.map.addOverlay(this.overlay);
         },
+        isWeiXin() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        },
         configJssdk() {
             var param = {
                 debug: true,
@@ -228,15 +244,12 @@ export default {
                 })
                 .then(
                     response => {
-                        console.log(response);
                         wx.config(response.data);
                         wx.ready(() => {
-                            console.log("wx.ready");
                             // alert('wx.ready')
                             that.play();
                         });
                         wx.error(function(err) {
-                            console.log(JSON.stringify(err));
                             // alert('wx.error')
                             // alert(JSON.stringify(err))
                             console.log("wx err", err);
@@ -285,7 +298,9 @@ export default {
         navigate() {
             this.state = false;
 
-            this.$router.push({ name: "baidumap" });
+            this.$router.push({
+                name: "baidumap"
+            });
         },
         creatMeMarker() {
             this.meLable = new ol.Overlay({
@@ -347,9 +362,13 @@ export default {
                     id: id
                 })
                 .then(() => {
-                    if (ua) {
+                    var is = that.isWeiXin();
+                    if (ua && is) {
+                        console.log("jssdk");
+
                         that.configJssdk();
                     } else {
+                        console.log("h5");
                         that.play();
                     }
                 });
@@ -364,7 +383,11 @@ export default {
                     console.log(data);
                     //Object.assign只是浅拷贝
                     var wgs84Sphere = new ol.Sphere(6378137);
-                    that.activeOverlayerMessage = Object.assign({ mode: mode }, data);
+                    that.activeOverlayerMessage = Object.assign({
+                            mode: mode
+                        },
+                        data
+                    );
                     // var json = Object.assign({ mode: mode }, data);
 
                     that.currentPopid = id;
@@ -415,25 +438,7 @@ export default {
                 this.layerTogleShow(data[0].type, visibility);
             }
         },
-        /*
-                                                                                                                setlayer(item, visibility = false) {
-                                                                                                                  for (let i = 0, len = item.length; i < len; i++) {
-                                                                                                                    var pos = ol.proj.transform(item[i].location, "EPSG:4326", "EPSG:3857");
-                                                                                                                    var lable = document.createElement("span");
-                                                                                                                    var t = document.createTextNode(item[i].title);
-                                                                                                                    lable.appendChild(t);
-                                                                                                                    lable.setAttribute("class", "lable " + item[i].type);
-                                                                                                                    lable.id = item[i].id;
-                                                                                                                    var Lable = new ol.Overlay({
-                                                                                                                      position: item[i].location,
-                                                                                                                      element: lable
-                                                                                                                    });
-                                                                                                                    this.map.addOverlay(Lable);
-                                                                                                                    Lable.setPosition(pos);
-                                                                                                                  }
 
-                                                                                                                  this.layerTogleShow(item[0].type, visibility);
-                                                                                                                },*/
         layerTogleShow(type, boolen) {
             // layer.setVisible(boolen)
             var lable = document.querySelectorAll("." + type);
@@ -489,7 +494,7 @@ export default {
 
             var boolen = isMobile();
             this.playByAp(this.currentPosition);
-            this.geofunction();
+            // this.geofunction();
         }
     },
     destroyed() {
