@@ -1,11 +1,11 @@
 export default {
     changLanguage(state, payload) {
-        console.log(payload);
         state.languageMessages.activeIndex = payload;
         state.activeLanguage = state.languageMessages.item[payload].id;
     },
     changeAuto(state, payload) {
         state.languagemode.activeIndex = payload;
+        state.auto = !!payload;
     },
     notHerefun(state, payload) {
         state.notHere = payload.state;
@@ -41,11 +41,15 @@ export default {
         state.flesh = payload;
     },
     changeActiveLanguage(state, payload) {
-        console.log(payload);
         state.activeLanguage = payload;
     },
     changeActiveOverlayerMessage(state, payload) {
-        console.log(payload);
         state.activeOverlayerMessage = payload;
+    },
+    toggleIsInpanoramic(state, payload) {
+        state.isInpanoramic = payload;
+    },
+    changeActiveAp(state, payload) {
+        state.activeAp = payload;
     }
 };

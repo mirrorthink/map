@@ -15,105 +15,101 @@
     </section>
 </template>
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
-    name: 'toggleBar',
-    props: ['Messages','name'],
-    data() {
-        return {
-            allShow: false,
-    
-        }
-    },
-    methods: {
+  name: "toggleBar",
+  props: ["Messages", "name"],
+  data() {
+    return {
+      allShow: false
+    };
+  },
+  methods: {
+    toggleAllshow() {
+      var that = this;
 
-        toggleAllshow() {
-            var that = this;
+      if (this.Messages.item.length > 2) {
+        this.allShow = !this.allShow;
+        this.changetoggleAllShow();
+      } else {
+        //自动播放按钮
+        var index = (this.Messages.activeIndex + 1) % 2;
 
-            if (this.Messages.item.length > 2) {
-                this.allShow = !this.allShow;
-                this.changetoggleAllShow()
-            } else {
-                //自动播放按钮
-                  var index = (this.Messages.activeIndex + 1) % 2;
-             
-           
-                    this.$emit('changMode', index )
-            
+        this.$emit("changMode", index);
 
-               /* if (this.activeItem.index == 1) {
+        /* if (this.activeItem.index == 1) {
                     that.locating(true)
                 } else {
                    
 
                 }*/
-            }
-        },
-        clickItem(index) {
-            var that = this;
-            this.toggleAllshow();    
-            this.$emit('changMode',index)
-
-
-        },
-        ...mapMutations([
-            'changetoggleAllShow', 'play', 'audioShowContral', 'locating', 'pause', 'changMode'
-        ]),
-        ...mapActions([
-             'getlayerMessage','changeSightMessageByLangeageMode'
-        ]),
+      }
     },
-    computed: mapState(['geoErr', 'notHere', 'currentPosition']),
-
-}
+    clickItem(index) {
+      var that = this;
+      this.toggleAllshow();
+      this.$emit("changMode", index);
+    },
+    ...mapMutations([
+      "changetoggleAllShow",
+      "play",
+      "audioShowContral",
+      "locating",
+      "pause",
+      "changMode"
+    ]),
+    ...mapActions(["getlayerMessage", "changeSightMessageByLangeageMode"])
+  },
+  computed: mapState(["geoErr", "notHere", "currentPosition"])
+};
 </script>
 
 
 <style scoped lang="less">
 section {
-    position: relative;
-    clear: both;
-    z-index: 3;
+  position: relative;
+  clear: both;
+  z-index: 3;
+  span {
+    padding: 0.14rem 0.5rem;
+    background: #fff;
+    margin-bottom: 1rem;
+    width: 2.71rem;
+    height: 2.71rem;
+    margin-left: 0.86rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  span.voice {
+    padding: 0.5rem;
+  }
+  div.active {
     span {
-        padding: 0.14rem 0.5rem;
-        background: #FFF;
-        margin-bottom: 1rem;
-        width: 2.71rem;
-        height: 2.71rem;
-        margin-left: 0.86rem;
-        img {
-            width: 100%;
-            height: 100%;
-        }
+      float: right;
     }
-    span.voice {
-        padding: 0.5rem;
-    }
-    div.active {
-        span {
-            float: right;
-        }
-    }
-    .all {
-        position: absolute;
-        top: 0px;
-        right: 0px;
+  }
+  .all {
+    position: absolute;
+    top: 0px;
+    right: 0px;
 
-        span {
-            display: inline-block;
-        }
-        overflow: hidden;
+    span {
+      display: inline-block;
     }
+    overflow: hidden;
+  }
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: all .2s ease-in
+  transition: all 0.2s ease-in;
 }
 
 .fade-enter,
 .fade-leave-active {
-    min-width: 28rem;
-    transform: translateX(100%)
+  min-width: 28rem;
+  transform: translateX(100%);
 }
 </style>

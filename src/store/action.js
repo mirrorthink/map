@@ -355,7 +355,6 @@ export default {
     getPoiLayerMessage({ commit, state }) {
         return new Promise((resolve, reject) => {
             if (poiLayer) {
-                console.log(poiLayer);
                 resolve(poiLayer);
             } else {
                 reject("not found");
@@ -365,7 +364,6 @@ export default {
     getTG_ScenicSpot({ commit, state }) {
         return new Promise((resolve, reject) => {
             if (sightLayer) {
-                console.log(sightLayer);
                 resolve(sightLayer);
             } else {
                 reject("not found");
@@ -378,14 +376,13 @@ export default {
                 //	let filterResult = audiolist.filter(function (item, index, array) {
                 //	return (item.id == payload.id);
                 //	});
-                console.log(audiolist[payload.id]);
+
                 let filterResult = audiolist[payload.id][state.activeLanguage];
 
                 if (filterResult) {
                     state.audio = filterResult;
 
                     resolve(filterResult);
-                    console.log("filterResult" + filterResult);
                 } else {
                     reject();
                 }
@@ -453,7 +450,6 @@ export default {
     changeSightMessageByLangeageMode({ commit, state }, payload) {},
 
     getImgById({ commit, state }, payload) {
-        console.log(payload);
         return new Promise((resolve, reject) => {
             let acitveItem = imglist.filter(function(item) {
                 return item.id == payload;
@@ -507,15 +503,11 @@ export default {
             Vue.http.get(serverApi).then(
                 response => {
                     var json = response.body;
-                    console.log(json.state == 200);
-                    console.log(json.ipLabel);
 
                     if (json.state == 200) {
-                        console.log(json.ipLabel);
                         resolve(json.ipLabel);
                     } else {
                         resolve("未检测到对应ap");
-                        console.log("未检测到对应ap");
                     }
                 },
                 err => {

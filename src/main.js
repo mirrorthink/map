@@ -17,8 +17,6 @@ import VueAwesomeSwiper from "vue-awesome-swiper";
 import VueLazyload from "vue-lazyload";
 import vWow from "v-wow";
 export default ViewSwitcher.use([ViewSwitcher]);
-console.log(VueLazyload);
-console.log(vWow);
 
 let routeRection = new Vue();
 //console.log(Vue.use);

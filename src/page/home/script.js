@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             state: false,
-            activeAp: null,
+
             currentPosition: [],
             map: {
                 type: Object,
@@ -52,12 +52,12 @@ export default {
                 })
             }),
             /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                layer2: new ol.layer.Tile({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                  source: new ol.source.XYZ({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    url: "https://notifysystem.trade/pts_Road/{z}/{x}-{y}.png"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    // url: 'http://localhost:9096/jnu_Road/{z}/{x}-{y}.jpg'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                  })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                }),*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              layer2: new ol.layer.Tile({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                source: new ol.source.XYZ({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  url: "https://notifysystem.trade/pts_Road/{z}/{x}-{y}.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // url: 'http://localhost:9096/jnu_Road/{z}/{x}-{y}.jpg'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              }),*/
             //地图中心点
             center: ol.proj.transform(
                 [113.5223325947326, 22.3178767486058],
@@ -87,7 +87,13 @@ export default {
                 english: ["Location", "Sight", "Navigation"]
             },
             geoWord: {
-                chiness: ["正在获取定位", "继续浏览", "导航到此", "检测到你不在区域范围内", "无法获取你的地理位置"],
+                chiness: [
+                    "正在获取定位",
+                    "继续浏览",
+                    "导航到此",
+                    "检测到你不在区域范围内",
+                    "无法获取你的地理位置"
+                ],
                 english: [
                     "Locating",
                     "Go on",
@@ -110,7 +116,6 @@ export default {
             controls: [new ol.control.Zoom()]
         });
         this.getlayerMessage().then(data => {
-            console.log(data);
             Object.keys(data).map(item => {
                 this.setlayer(data[item]);
             });
@@ -123,8 +128,8 @@ export default {
             });
         });
         /*  this.getTG_ScenicSpot().then(data => {
-                                                                                          this.setlayer(data, true);
-                                                                                      });*/
+                                                                                                              this.setlayer(data, true);
+                                                                                                          });*/
     },
     mounted() {
         this.musicPlay = document.getElementById("music");
@@ -171,27 +176,38 @@ export default {
         /*先放出来测试*/
         // this.playByAp("ap2");
 
-        var timer = setInterval(() => {
-            this.locateByIP()
-                .then(data => {
-                    if (this.activeAp == data) {
-                        return;
-                    } else {
-                        this.activeAp = data;
+        /* var timer = setInterval(() => {
+                                 this.locateByIP()
+                                     .then(data => {
+                                         if (this.activeAp == data) {
+                                             return;
+                                         } else {
+                                             this.activeAp = data;
 
-                        this.playByAp(data);
-                    }
-                })
-                .catch(e => {
-                    // console.log(e);
-                    // clearInterval(timer);
-                });
-        }, 1000);
+                                             this.playByAp(data);
+                                         }
+                                     })
+                                     .catch(e => {
+                                         console.log(e);
+                                         // clearInterval(timer);
+                                     });
+                             }, 1000);*/
+        /* if (this.auto) {
+                                 // console.log(this.activeAp)
+                                 alert(this.activeAp)
+                                     // this.playByAp(this.activeAp);
+                             }*/
+
+        if (this.auto) {
+            this.playByAp(this.activeAp);
+        }
 
         this.createPopupOverlay();
         testgeojson(ol, this.map);
     },
     computed: mapState([
+        "auto",
+        "activeAp",
         "languageMessages",
         "languagemode",
         "geoErr",
@@ -380,7 +396,6 @@ export default {
             var that = this;
             this.getSightMessageById(id)
                 .then(function(data) {
-                    console.log(data);
                     //Object.assign只是浅拷贝
                     var wgs84Sphere = new ol.Sphere(6378137);
                     that.activeOverlayerMessage = Object.assign({
@@ -484,7 +499,6 @@ export default {
         },
         geoErr(curVal, oldVal) {
             this.state = this.notHere || this.geoErr;
-            console.log(this.state);
         },
         allShow(curVal, oldVal) {
             this.allShow = curVal;
@@ -495,6 +509,17 @@ export default {
             var boolen = isMobile();
             this.playByAp(this.currentPosition);
             // this.geofunction();
+        },
+        activeAp(curVal, oldVal) {
+            console.log(curVal);
+            if (this.auto) {
+                this.playByAp(this.activeAp);
+            }
+        },
+        auto(curVal, oldVal) {
+            if (curVal) {
+                this.playByAp(this.activeAp);
+            }
         }
     },
     destroyed() {
