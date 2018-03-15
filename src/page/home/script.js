@@ -19,7 +19,6 @@ export default {
     data() {
         return {
             state: false,
-
             currentPosition: [],
             map: {
                 type: Object,
@@ -51,13 +50,7 @@ export default {
                     // url: "http://114.115.129.48:8081/static/{z}/{x}-{y}.jpg"
                 })
             }),
-            /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              layer2: new ol.layer.Tile({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                source: new ol.source.XYZ({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  url: "https://notifysystem.trade/pts_Road/{z}/{x}-{y}.png"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // url: 'http://localhost:9096/jnu_Road/{z}/{x}-{y}.jpg'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              }),*/
+            /*                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }),*/
             //地图中心点
             center: ol.proj.transform(
                 [113.5223325947326, 22.3178767486058],
@@ -119,7 +112,6 @@ export default {
             Object.keys(data).map(item => {
                 this.setlayer(data[item]);
             });
-
             this.layerTogleShow("sight", true);
         });
         this.getPoiLayerMessage().then(data => {
@@ -128,14 +120,13 @@ export default {
             });
         });
         /*  this.getTG_ScenicSpot().then(data => {
-                                                                                                              this.setlayer(data, true);
-                                                                                                          });*/
+                  this.setlayer(data, true);
+             });*/
     },
     mounted() {
         this.musicPlay = document.getElementById("music");
         var that = this;
         // 点击弹框事件，原始方式,神奇的setTimeout 之后才可获取到
-
         setTimeout(() => {
             this.lable = document.querySelectorAll(".lable");
             this.changelanguageMessages();
@@ -169,9 +160,7 @@ export default {
                 timeout: 600000
             }
         });
-
         //  this.geofunction();
-        //
         //true
         /*先放出来测试*/
         // this.playByAp("ap2");
@@ -215,7 +204,6 @@ export default {
         "audioShow",
         "allShow",
         "activeLanguage",
-
         "playing",
         "locating",
         "audio",
@@ -313,7 +301,6 @@ export default {
         },
         navigate() {
             this.state = false;
-
             this.$router.push({
                 name: "baidumap"
             });

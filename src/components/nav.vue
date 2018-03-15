@@ -1,10 +1,8 @@
 <template>
     <div class="holder">
-    
         <div class="item" v-for="(message,index) in navMessages" @touchend.stop.prevent="show(index)" @click="show(index)">
             <span class="icon">
                <img :src="message.icon_d" alt="" v-if="!message.show">
-          
                   <img :src="message.icon" alt="" v-if="message.show">
             </span>
             <span class="title" v-bind:class="{ active: message.show }">{{message.item[activeLanguage]}}</span>
@@ -21,22 +19,17 @@ export default {
             navMessages: [
                 {
                     "item": {
-
                         'chiness': '路线',
                         'english': 'route'
-
                     },
                     "icon": '/static/img/int_path@2x.png',
                      "icon_d": '/static/img/int_path_disabled@2x.png',
                     'show': false,
                     'layer': 'routeLayer',
                     'type': 'route',
-
                 },
                 {
-
                     "item": {
-
                         'chiness': '景点',
                         'english': 'sight'
 
