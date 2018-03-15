@@ -2,8 +2,8 @@
   <div>
     <transition :name="$router.app.transition">
       <router-view class="child-view"></router-view>
-    </transition>
-  
+    </transition> 
+    <!--loading组件 -->
     <loading v-if="loading"></loading>
   
   </div>
@@ -16,14 +16,15 @@ export default {
   data() {
     return {
       transitionName: "slide-left",
+      //TODO loading 目前是通过state获取是否有这个必要
       loading: false
     };
   },
   components: {
     loading
   },
-  created() {},
   mounted() {
+    //TODO 初始化监听Ap 是否在此合理？
     this.autoPlay();
   },
   computed: mapState(["loadingShow", "auto"]),
@@ -31,25 +32,33 @@ export default {
     autoPlay() {
       if (this.auto) {
         if (process.env.NODE_ENV === "development") {
-          setTimeout(() => {
+          /**
+           * 模拟切换
+           */
+          /* setTimeout(() => {
             this.changeActiveAp("ap1");
           }, 1);
-
           setTimeout(() => {
             this.changeActiveAp("ap2");
-          }, 1000 * 30);
+          }, 1000 * 30);*/
         } else {
+          //出错到十次就停止监听，每一秒check一下当前的AP,有变化则通过mutation改变当前的 state.activeAp 合理吗？
+          var errCount = 0;
           var timer = setInterval(() => {
             this.locateByIP()
               .then(data => {
                 if (this.activeAp == data) {
                   return;
                 } else {
+                  //
                   this.changeActiveAp(data);
                 }
               })
               .catch(e => {
-                console.log(e);
+                errCount++;
+                if (errCount > 10) {
+                  clearInterval(timer);
+                }
               });
           }, 1000);
         }
@@ -59,7 +68,7 @@ export default {
       }
     },
     ...mapActions(["locateByIP"]),
-    ...mapMutations(["changeAuto", "changeActiveAp", "audioShowContral"])
+    ...mapMutations(["changeActiveAp", "audioShowContral"])
   },
   watch: {
     $route(to, from) {
@@ -69,10 +78,12 @@ export default {
     },
     loadingShow(curVal, oldVal) {
       this.loading = curVal;
-    },
+    }
+    //是否需要在这监听auto
+    /*
     auto(curVal, oldVal) {
       this.autoPlay();
-    }
+    }*/
   }
 };
 </script>

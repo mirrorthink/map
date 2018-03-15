@@ -20,115 +20,95 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
-import { formatTime } from '../services/Global'
+import { mapState, mapActions, mapMutations } from "vuex";
+import { formatTime } from "../services/Global";
 
 export default {
-  name: 'audioplay',
-  components: {
-
-  },
+  name: "audioplay",
+  components: {},
   props: {
     auto: {
       type: Boolean,
       default: true
-    },
+    }
   },
   data() {
     return {
-      iconPlay: '/static/img/voice_play@3x.png',
-      iconPause: '/static/img/voice_pause@3x.png',
-      coverImgUrl: '/static/img/icon-music.png',
-      dataUrl: '/static/test.mp3',
-      duration: '00:00',
-      currentTime: '00:00',
+      iconPlay: "/static/img/voice_play@3x.png",
+      iconPause: "/static/img/voice_pause@3x.png",
+      coverImgUrl: "/static/img/icon-music.png",
+      dataUrl: "/static/test.mp3",
+      duration: "00:00",
+      currentTime: "00:00",
       indicatorPosition: 0,
-      loading:true,
-    }
+      loading: true
+    };
   },
 
-  computed: mapState(['playing', 'audio', 'simulate']),
-
+  computed: mapState(["playing", "audio", "simulate"]),
 
   methods: {
     tapButton(boolean) {
-
-      event && event.preventDefault()
+      event && event.preventDefault();
       if (this.playing) {
-
-        this.pause()
+        this.pause();
       } else {
-        this.play()
+        this.play();
       }
     },
-    playContinue() {
-
-    },
+    playContinue() {},
     onclose() {
       this.$refs.audio.pause();
       this.audioShowContral(false);
     },
 
-    ...mapMutations([
-      'play', 'pause', 'changeLoadingShow', 'audioShowContral'
-    ])
+    ...mapMutations(["play", "pause", "changeLoadingShow", "audioShowContral"])
   },
   mounted() {
-    this.$refs.audio.addEventListener('loadstart', () => {
-    
-
-
-    });
-    this.$refs.audio.addEventListener('loadedmetadata', () => {
-    });
-    this.$refs.audio.addEventListener('canplaythrough', () => {
-
-
-      this.loading=false;
+    this.$refs.audio.addEventListener("loadstart", () => {});
+    this.$refs.audio.addEventListener("loadedmetadata", () => {});
+    this.$refs.audio.addEventListener("canplaythrough", () => {
+      this.loading = false;
       if (this.$refs.audio) {
         this.duration = formatTime(this.$refs.audio.duration);
       }
 
       // audio.play()
-
     });
-    this.$refs.audio.addEventListener('timeupdate', () => {
+    this.$refs.audio.addEventListener("timeupdate", () => {
       if (this.$refs.audio) {
         this.currentTime = formatTime(this.$refs.audio.currentTime);
-        this.indicatorPosition = this.$refs.audio.currentTime / this.$refs.audio.duration * 100;
+        this.indicatorPosition =
+          this.$refs.audio.currentTime / this.$refs.audio.duration * 100;
       }
-
     });
   },
   watch: {
-    playing: function (val) {
+    playing: function(val) {
       if (val) {
-
         var playPromise = this.$refs.audio.play();
         if (playPromise !== undefined) {
-          playPromise.then(function () {
-          }).catch(function (error) {
-            alert(error)
+          playPromise.then(function() {}).catch(function(error) {
+            alert(error);
           });
         }
       } else {
-        this.$refs.audio.pause()
+        this.$refs.audio.pause();
       }
     },
-    audio: function (val) {
-      console.log('watchqudio')
+    audio: function(val) {
       if (val) {
         this.$refs.audio.pause();
-        this.$refs.audio.src=null
+        this.$refs.audio.src = null;
 
         this.$refs.audio.src = val.audioUrl;
         this.$refs.audio.load();
-     
-        console.log(this.$refs.audio.src)
+
+        console.log(this.$refs.audio.src);
       }
     }
   }
-}
+};
 </script>
 
 
@@ -155,12 +135,7 @@ export default {
   }
 }
 
-
-
-
-
 .play-bar-text {
-
   padding-left: 1rem;
   cursor: pointer; // margin-right: 2rem;
   h5 {
@@ -187,7 +162,6 @@ export default {
 }
 
 .duration {
-
   flex-grow: 1;
   border-bottom: 1px solid #ccc;
   margin-right: 2.43rem;
@@ -202,9 +176,6 @@ export default {
     background: #927028;
   }
 }
-
-
-
 
 .close {
   width: 1.71rem;

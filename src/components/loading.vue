@@ -17,33 +17,24 @@
 </template>
 <script>
 export default {
-  name: 'loading',
+  name: "loading",
   props: {
     message: {
       type: String,
-      default: ''
-    },
-  },
-  data() {
-    return {
-
+      default: ""
     }
   },
-  mounted() {
-    let lable = document.querySelector('.lable');
-    window.addEventListener('scroll', () => {
-
-
-    this.$refs.wraper && ( this.$refs.wraper.style.top = document.body.scrollTop+'px') ;
-  
-
-
-    })
-
-
-
+  data() {
+    return {};
   },
-}
+  mounted() {
+    let lable = document.querySelector(".lable");
+    window.addEventListener("scroll", () => {
+      this.$refs.wraper &&
+        (this.$refs.wraper.style.top = document.body.scrollTop + "px");
+    });
+  }
+};
 </script>
 
 

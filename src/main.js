@@ -1,30 +1,24 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-
 //全局样式
 import "./assets/iconfont/iconfont.css";
 import "./style/common.css";
+//TODO改为 axios
 import VueResource from "vue-resource";
 import Vue from "vue";
 import App from "./App";
-import routes from "./router";
 import store from "./store";
 import VueRouter from "vue-router";
+import routes from "./router";
 import ViewSwitcher from "./services/ViewSwitcher";
 //第三方组件
 import VueAwesomeSwiper from "vue-awesome-swiper";
-
 import VueLazyload from "vue-lazyload";
 import vWow from "v-wow";
-export default ViewSwitcher.use([ViewSwitcher]);
-
-let routeRection = new Vue();
-//console.log(Vue.use);
+ViewSwitcher.use([ViewSwitcher]);
 
 Vue.use(VueAwesomeSwiper);
 Vue.use(VueRouter);
-
 Vue.use(vWow);
+//TODO改为 axios
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
     error: "/static/img/error.svg",
@@ -32,11 +26,10 @@ Vue.use(VueLazyload, {
     listenEvents: ["scroll", "mousewheel"],
     attempt: 1
 });
-
 const router = new VueRouter({
     routes
 });
-
+//TODO优化路由动画
 router.beforeEach((to, from, next) => {
     setTimeout(() => {
         // let transitions = !from.name ? '' : ((from.name == 'home') || (from.name == 'sightList' && to.name != 'home' ) ) ? 'slide-right' : '';

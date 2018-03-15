@@ -13,7 +13,7 @@ const state = {
     geoMessage: "",
     allShow: false,
     activeLanguage: "chiness",
-    activeAp: null,
+    activeAp: "",
     auto: true,
     languageMessages: {
         item: [

@@ -41,13 +41,10 @@ export default {
             navShow: false,
             //是否要居中
             setCenterFlag: true,
-            layer1: new ol.layer.Tile({
+            //最基础的图层：地图
+            baseLayer: new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    //  url: "https://notifysystem.trade/pts/{z}/{y}/{x}.png"
-                    url: "https://notifysystem.trade/pts/{z}/{x}-{y}.jpg"
-
-                    // url: 'http://localhost:9096/pts/{z}/{x}-{y}.jpg'
-                    // url: "http://114.115.129.48:8081/static/{z}/{x}-{y}.jpg"
+                    url: "http://114.115.129.48:8081/static/pts/{z}/{x}-{y}.jpg"
                 })
             }),
             /*                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }),*/
@@ -59,9 +56,6 @@ export default {
             ),
             geolocation: null,
             view: null,
-            sightLayer: new ol.layer.Vector({
-                source: new ol.source.Vector()
-            }),
             overlay: null,
             message: {
                 id: "",
@@ -69,12 +63,10 @@ export default {
                 dec: ".",
                 location: []
             },
-
             currentPopid: null,
             geoMessage: "",
             activeIconMessage: {},
             autoplay: false,
-
             navWord: {
                 chiness: ["定位", "所有景点", "兴趣点"],
                 english: ["Location", "Sight", "Navigation"]
@@ -102,23 +94,29 @@ export default {
             zoom: 18,
             center: this.center // 地图中心
         });
-
         this.map = new ol.Map({
-            layers: [this.layer1],
+            layers: [this.baseLayer],
             view: this.view,
             controls: [new ol.control.Zoom()]
         });
+        //添加全部图层，默认为隐藏状态
         this.getlayerMessage().then(data => {
             Object.keys(data).map(item => {
                 this.setlayer(data[item]);
             });
+            //设置景点图层为可见
             this.layerTogleShow("sight", true);
         });
-        this.getPoiLayerMessage().then(data => {
-            Object.keys(data).map(item => {
-                this.setlayer(data[item]);
+        //设置热点信息
+        this.getPoiLayerMessage()
+            .then(data => {
+                Object.keys(data).map(item => {
+                    this.setlayer(data[item]);
+                });
+            })
+            .catch(e => {
+                console.log(e);
             });
-        });
         /*  this.getTG_ScenicSpot().then(data => {
                   this.setlayer(data, true);
              });*/
@@ -129,19 +127,42 @@ export default {
         // 点击弹框事件，原始方式,神奇的setTimeout 之后才可获取到
         setTimeout(() => {
             this.lable = document.querySelectorAll(".lable");
-            this.changelanguageMessages();
+            //TODo为什么每次都要改变一下语言
+            //  this.changelanguageMessages();
+
+
             for (let i = 0; i < this.lable.length; i++) {
                 this.lable[i].addEventListener(
                     "click",
                     function(event) {
-                        that.haddleActiveOverlayerMessageById(event.target.id, "click");
+                    
+                        that.haddleActiveOverlayerMessageById(
+                            event.target.id,
+                            "click"
+                        );
                     },
                     true
                 );
             }
-        }, 10);
+            //使用事件代理
+            /* body.addEventListener(
+                "click",
+                function(event) {
+                    var reg = /^\slable\s$/;
+                    console.log(event.target.className)
+                    console.log(reg.test(event.target.className))
+                    if (reg.test(event.target.className)) {
+                        that.haddleActiveOverlayerMessageById(
+                            event.target.id,
+                            "click"
+                        );
+                    }
+                },
+                true
+            );*/
+        }, 100);
         // 获取坐标用
-        this.map.on("click", e => {
+        /* this.map.on("click", e => {
             e.stopPropagation();
             let coordinate = e.coordinate;
             console.log(coordinate);
@@ -149,9 +170,11 @@ export default {
                 ol.proj.transform(coordinate, "EPSG:3857", "EPSG:4326")
             );
             console.log(lc);
-        });
+        });*/
+        //当前位置icon
         this.creatMeMarker();
         this.map.setTarget(this.$refs.map.id);
+        //定位
         this.geolocation = new ol.Geolocation({
             projection: "EPSG:3857",
             trackingOptions: {
@@ -160,38 +183,19 @@ export default {
                 timeout: 600000
             }
         });
-        //  this.geofunction();
-        //true
-        /*先放出来测试*/
-        // this.playByAp("ap2");
 
-        /* var timer = setInterval(() => {
-                                 this.locateByIP()
-                                     .then(data => {
-                                         if (this.activeAp == data) {
-                                             return;
-                                         } else {
-                                             this.activeAp = data;
+        /**
+         *初始化监听AP
+         */
 
-                                             this.playByAp(data);
-                                         }
-                                     })
-                                     .catch(e => {
-                                         console.log(e);
-                                         // clearInterval(timer);
-                                     });
-                             }, 1000);*/
-        /* if (this.auto) {
-                                 // console.log(this.activeAp)
-                                 alert(this.activeAp)
-                                     // this.playByAp(this.activeAp);
-                             }*/
-
-        if (this.auto) {
+        /* if (this.auto && this.activeAp !== null) {
             this.playByAp(this.activeAp);
-        }
+        }*/
 
         this.createPopupOverlay();
+        /**
+         * 用geojson弄路径图层等
+         */
         testgeojson(ol, this.map);
     },
     computed: mapState([
@@ -238,12 +242,17 @@ export default {
         configJssdk() {
             var param = {
                 debug: true,
-                jsApiList: ["playVoice", "pauseVoice", "stopVoice", "onVoicePlayEnd"],
+                jsApiList: [
+                    "playVoice",
+                    "pauseVoice",
+                    "stopVoice",
+                    "onVoicePlayEnd"
+                ],
                 url: "https://www.notifysystem.trade"
             };
             var that = this;
             this.$http
-                .get("https://notifysystem.trade:3001/backend/JsConfig", {
+                .get("http://114.115.129.48:8082/JsConfig", {
                     param: param
                 })
                 .then(
@@ -371,7 +380,6 @@ export default {
 
                         that.configJssdk();
                     } else {
-                        console.log("h5");
                         that.play();
                     }
                 });
@@ -381,6 +389,7 @@ export default {
             this.audioShowContral(false);
             this.popupShow = false;
             var that = this;
+            console.log(id);
             this.getSightMessageById(id)
                 .then(function(data) {
                     //Object.assign只是浅拷贝
@@ -489,25 +498,29 @@ export default {
         },
         allShow(curVal, oldVal) {
             this.allShow = curVal;
-        },
-        locating(curVal, oldVal) {
-            // this.configJssdk()
+        }
+        /**
+         * 一些watch监听事件 不知是否有必要
+         */
 
+        /*  locating(curVal, oldVal) {
             var boolen = isMobile();
+            console.log("locating");
             this.playByAp(this.currentPosition);
-            // this.geofunction();
         },
         activeAp(curVal, oldVal) {
+            console.log("activeAp");
             console.log(curVal);
             if (this.auto) {
                 this.playByAp(this.activeAp);
             }
         },
         auto(curVal, oldVal) {
+            console.log("auto");
             if (curVal) {
                 this.playByAp(this.activeAp);
             }
-        }
+        }*/
     },
     destroyed() {
         this.audioShowContral(false);

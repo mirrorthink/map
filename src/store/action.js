@@ -426,7 +426,8 @@ export default {
                 let sightMessage = Object.assign({}, acitveItem[0], additionMassage);
                 resolve(sightMessage);
             } else {
-                reject("该景点信息暂不存在");
+               // reject("该景点信息暂不存在");
+               //console.log("该景点信息暂不存在")
             }
         });
     },
