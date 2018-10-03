@@ -1,25 +1,25 @@
-<section id="section" class='container'>
+<section class="container" id="section">
     <div class="ol-map" id="map" ref="map">
         <div id="overlayerHolder"></div>
     </div>
     <div class="toggleholder" v-bind:class="{ active: allShow}">
-        <toggleBar v-once v-bind:Messages="languageMessages" @changMode="langeChange" name="languageMessages"></toggleBar>
-        <toggleBar v-once v-bind:Messages="languagemode" @changMode="changeAuto" name="languagemode"></toggleBar>
+        <toggleBar name="languageMessages" v-once v-bind:Messages="languageMessages" @changMode="langeChange"></toggleBar>
+        <toggleBar name="languagemode" v-once v-bind:Messages="languagemode" @changMode="changeAuto"></toggleBar>
     </div>
-    <img id="geolocation_marker" src="../../assets/img/map_position_point@2x.png" />
+    <img id="geolocation_marker" src="../../assets/img/map_position_point@2x.png">
     <div class="icon">
         <div class="miannav">
             <a class="iconHolder" v-on:click="locate()">
-                <img src="/static/img/nav_navigation@2x.png" />
+                <img src="/static/img/nav_navigation@2x.png">
                 <span>{{navWord[activeLanguage][0]}}</span>
             </a>
-            <router-link to="sightList" class="iconHolder">
-                <img src="/static/img/nav_detail@2x.png" />
+            <router-link class="iconHolder" to="sightList">
+                <img src="/static/img/nav_detail@2x.png">
                 <span>{{navWord[activeLanguage][1]}}</span>
             </router-link>
             <a class="iconHolder" v-on:click="toggleNav">
 
-                <img src="/static/img/nav_layer@2x.png" />
+                <img src="/static/img/nav_layer@2x.png">
                 <span>{{navWord[activeLanguage][2]}}</span>
             </a>
         </div>
@@ -35,10 +35,10 @@
     </transition>
 
     <transition name="upIn">
-        <div v-if="popupShow" class="popupCointer">
+        <div class="popupCointer" v-if="popupShow">
             <div class="closeHolder">
-                <span class="close" v-on:click="popupShow=!popupShow">
-                    <img src="/static/img/map_close@3x.png" alt="">
+                <span class="close" v-on:click="close">
+                    <img src="/static/img/map_close@3x.png" alt>
                 </span>
             </div>
 
@@ -62,7 +62,7 @@
         <audioplay v-show="audioShow" v-on:close="audioShowContral()"></audioplay>
 
     </transition>
-    <audio src="http://120.76.121.29:3000/users/audio3.mp3" id="bgmusic">
+    <audio id="bgmusic" src="http://120.76.121.29:3000/users/audio3.mp3">
         您的浏览器不支持 audio 标签。
     </audio>
 </section>

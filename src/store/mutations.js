@@ -4,8 +4,14 @@ export default {
         state.activeLanguage = state.languageMessages.item[payload].id;
     },
     changeAuto(state, payload) {
-        state.languagemode.activeIndex = payload;
-        state.auto = !!payload;
+        state.languageMessages.activeIndex = payload;
+        state.activeLanguage = state.languageMessages.item[payload].id;
+    },
+    togglePopupShow(state, payload) {
+        state.popupShow = payload;
+    },
+    changeActiveOverlayerMessage(state, payload) {
+        state.activeOverlayerMessage = Object.assign({}, payload);
     },
     notHerefun(state, payload) {
         state.notHere = payload.state;

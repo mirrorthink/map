@@ -26,15 +26,8 @@ export default {
             },
             lable: null,
             ua: null,
-            activeOverlayerMessage: {
-                id: "",
-                title: "",
-                dec: "",
-                location: [],
-                mode: ""
-            },
+
             loadingShow: false,
-            popupShow: false,
             meLable: null,
             marker: null,
             musicPlay: null,
@@ -130,12 +123,10 @@ export default {
             //TODo为什么每次都要改变一下语言
             //  this.changelanguageMessages();
 
-
             for (let i = 0; i < this.lable.length; i++) {
                 this.lable[i].addEventListener(
                     "click",
                     function(event) {
-                    
                         that.haddleActiveOverlayerMessageById(
                             event.target.id,
                             "click"
@@ -211,7 +202,9 @@ export default {
         "playing",
         "locating",
         "audio",
-        "flesh"
+        "flesh",
+        "popupShow",
+        "activeOverlayerMessage"
     ]),
 
     methods: {
@@ -329,7 +322,6 @@ export default {
         },
         geofunction() {
             var that = this;
-
             this.geolocation.setTracking(true); // Start position tracking
             this.geolocation.on("change", function() {
                 var position = that.geolocation.getPosition();
@@ -348,6 +340,31 @@ export default {
                 // that.view.setCenter(posme);
                 that.marker.setPosition(posme);
             });
+            this.geolocation.on("error", function(error) {
+                console.log(error);
+            });
+            // http不能获取地理位置，故改为利用百度地图api
+            /* var geolocation = new BMap.Geolocation();
+
+            geolocation.getCurrentPosition(
+                r => {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        //var mk = new BMap.Marker(r.point);
+                        //  map.addOverlay(mk);
+                        //  map.panTo(r.point);
+                        // alert('您的位置：' + r.point.lng + ',' + r.point.lat);
+                        console.log(r)
+                        this.changeCurrentPosition(r.point);
+                    } else {
+                        alert("failed" + this.getStatus());
+                    }
+                }, {
+                    enableHighAccuracy: true
+                }
+            );*/
+        },
+        locate() {
+            this.geofunction();
         },
         playByAp(ap) {
             var boolen = isMobile();
@@ -356,7 +373,7 @@ export default {
         },
         close($event) {
             this.overlay.setPosition(undefined);
-            this.popupShow = false;
+            this.togglePopupShow(false);
 
             return false;
         },
@@ -387,18 +404,20 @@ export default {
 
         haddleActiveOverlayerMessageById(id, mode) {
             this.audioShowContral(false);
-            this.popupShow = false;
+            this.togglePopupShow(false);
             var that = this;
             console.log(id);
             this.getSightMessageById(id)
                 .then(function(data) {
                     //Object.assign只是浅拷贝
                     var wgs84Sphere = new ol.Sphere(6378137);
-                    that.activeOverlayerMessage = Object.assign({
+                    var activeOverlayerMessage = Object.assign(
+                        {
                             mode: mode
                         },
                         data
                     );
+                    that.changeActiveOverlayerMessage(activeOverlayerMessage);
                     // var json = Object.assign({ mode: mode }, data);
 
                     that.currentPopid = id;
@@ -415,7 +434,7 @@ export default {
                     );
                     that.view.setCenter(posme);
                     that.view.setZoom(18);
-                    that.popupShow = true;
+                    that.togglePopupShow(true);
                 })
                 .catch(e => {
                     alert(e);
@@ -486,7 +505,9 @@ export default {
             "changeFlesh",
             "changeActiveOverlayerMessage",
             "changLanguage",
-            "changeAuto"
+            "changeAuto",
+            "togglePopupShow",
+            "changeActiveOverlayerMessage"
         ])
     },
     watch: {

@@ -9,6 +9,7 @@ Vue.use(Vuex);
 const state = {
     notHere: null,
     geoErr: null,
+    popupShow: false,
     isInpanoramic: false,
     geoMessage: "",
     allShow: false,
@@ -26,7 +27,13 @@ const state = {
 
         activeIndex: 0
     },
-    activeOverlayerMessage: {},
+    activeOverlayerMessage: {
+        id: "",
+        title: "",
+        dec: "",
+        location: [],
+        mode: ""
+    },
     currentPosition: [],
     languagemode: {
         item: [

@@ -10,7 +10,7 @@
 </template>
 <script>
 import popup from "../components/popup";
-//let WOW = require("wowjs");
+let WOW = require("wowjs");
 
 import { mapState, mapActions, mapMutations } from "vuex";
 import audioplay from "../components/audioPlay";
@@ -28,7 +28,7 @@ export default {
   },
   mounted() {
     //  new WWOW().init();
-    new WOW().init();
+    //  new WOW().init();
     (document.title = "景点详情"),
       this.getSightMessage().then(data => {
         this.sightMessages = data;
