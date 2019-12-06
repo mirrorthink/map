@@ -2,7 +2,7 @@
 # 线上地址
 https://notifysystem.trade
 ## 描述
-> 智慧导览前端 检测ip变化 切换 景点 比较坑的是 移动端不支持autoplay 引用微信的jssdk
+> 智慧导览前端 检测ip变化 切换 景点 
 
 
 ## Build Setup
